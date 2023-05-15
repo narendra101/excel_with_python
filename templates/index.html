@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Filter App</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    
+    <!-- Custom CSS -->
+    <style>
+        .container {
+            padding-top: 50px;
+            min-width: 100vw;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container bg-info">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Filter Excel Data</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="form" action="{{ url_for('filter_excel') }}" method="POST" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Select Excel File</label>
+                                <input type="file" name="file" class="form-control" accept=".xls,.xlsx" required>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary d-flex ms-auto">Filter Data</button>
+                            </div>
+                            <div class="spinner-border text-primary spinner d-flex mx-auto my-3 d-none" role="status" id="spinner">
+                                <span class="visually-hidden text-center">Loading...</span>
+                            </div>                            
+                        </form>
+                        {% if file_url %}
+                            <div class="alert alert-success" role="alert">
+                                Data filtered successfully. Click <a href="{{ file_url }}">here</a> to download the filtered data.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-9/TqaMWit3a+iqEyzKLTJ9yPc8rKQf5i+G5PhWwzz8ofL4VT5oVyl+9W1P9rZJ5f" crossorigin="anonymous"></script>
+    <script>
+        const spinner = document.getElementById('spinner');
+        const form = document.getElementById('form');
+        form.addEventListener('submit', (e) => {
+            spinner.classList.remove('d-none')
+        })        
+        window.addEventListener('load', () => {
+            spinner.classList.add('d-none')
+        })
+    </script>
+</body>
+</html>
+
